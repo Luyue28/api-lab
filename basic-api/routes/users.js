@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 const router = express.Router(); // creates a fresh router instance, stored in the variable router
 
 // Mock database
-const users = [
+let users = [
     {
         first_name: 'John',
         last_name: 'Doe',
@@ -14,6 +14,31 @@ const users = [
         last_name: 'Smith',
         email: 'alicesmith@example.com'
     },
+    {
+        first_name: "Bob",
+        last_name: "Johnson",
+        email: "bobjohnson@example.com"
+    },
+    {
+        first_name: "Catherine",
+        last_name: "Williams",
+        email: "catherinewilliams@example.com"
+    },
+    {
+        first_name: "David",
+        last_name: "Jones",
+        email: "davidjones@example.com"
+    },
+    {
+        first_name: "Eva",
+        last_name: "Brown",
+        email: "evabrown@example.com"
+    },
+    {
+        first_name: "Frank",
+        last_name: "Davis",
+        email: "frankdavis@example.com"
+    }
 ];
 
 // Getting the list of users from the mock database
@@ -32,12 +57,21 @@ router.post('/', (req, res) => {
 // The :id part is a route parameter, which allows us to capture a dynamic value from the URL.
 router.get('/:id', (req, res) => {
     // destructure id from req.params to extract the user ID directly from the URL
-    const { id } = req.params; 
+    const { id } = req.params;
 
     // used the .find() method to search the data for a user whose ID matches the one captured from the URL
     const foundUser = users.find((user) => user.id === id);
 
     res.send(foundUser);
+});
+
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+
+    // create a new array that excludes the user with the matching ID
+    users = users.filter((user) => user.id !== id);
+
+    res.send(`${id} deleted successfully from database`);
 });
 
 export default router
