@@ -74,4 +74,22 @@ router.delete('/:id', (req, res) => {
     res.send(`${id} deleted successfully from database`);
 });
 
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+
+    const { first_name, last_name, email } = req.body;
+
+    // used .find() to locate the user object with the matching ID
+    // once found, modified the user's data based on req.body by updating first_name, last_name, or email properties if they exist
+    // allowing for selective changes without affecting other attributes.
+    const user = users.find((user) => user.id === id)
+
+    if (first_name) user.first_name = first_name;
+    if (last_name) user.last_name = last_name;
+    if (email) user.email = email;
+
+    res.send(`User with the ${id} has been updated`)
+
+});
+
 export default router
